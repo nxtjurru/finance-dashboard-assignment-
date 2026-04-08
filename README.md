@@ -15,7 +15,7 @@ A modern, interactive personal finance dashboard built as a university assignmen
 - All numbers animate on load using a custom `AnimatedNumber` component
 
 ### 2. Transactions
-- **Full transaction table** with 60 realistic mock entries across Jan–Mar 2026
+- **Full transaction table** with 86 realistic mock entries across Jan–Mar 2026
 - **Search** across description, counterparty, and category (debounced 300 ms)
 - **Quick type filters** (All / Income / Expense) as pill buttons
 - **Advanced filters** — category dropdown and date range picker
@@ -134,7 +134,7 @@ src/
     useStore.ts                  Single Zustand store with persist middleware
 
   data/
-    transactions.ts              60 mock transactions, Category union, colors/icons
+    transactions.ts              86 mock transactions, Category union, colors/icons
     pets.ts                      Pet options (cat, dog, bird, fish)
 
   hooks/
