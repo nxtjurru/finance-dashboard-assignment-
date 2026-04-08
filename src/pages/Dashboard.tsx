@@ -65,8 +65,20 @@ const DigitalClock = memo(function DigitalClock() {
   );
 });
 
+interface TooltipPayloadItem {
+  name: string;
+  value: number;
+  color: string;
+}
+
+interface ChartTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
+
 // Stable tooltip reference — prevents Recharts re-rendering on every chart hover
-const ChartTooltip = memo(function ChartTooltip({ active, payload, label }: any) {
+const ChartTooltip = memo(function ChartTooltip({ active, payload, label }: ChartTooltipProps) {
   const theme = useStore((s) => s.theme);
   const currencySymbol = useStore((s) => s.appSettings.currencySymbol);
   if (!active || !payload?.length) return null;
@@ -74,7 +86,7 @@ const ChartTooltip = memo(function ChartTooltip({ active, payload, label }: any)
   return (
     <div className={`${isDark ? "bg-surface-container-highest" : "bg-white"} px-4 py-3 rounded-xl shadow-xl border ${isDark ? "border-outline-variant/20" : "border-gray-200"}`}>
       <p className={`text-xs font-semibold mb-1 ${isDark ? "text-on-surface" : "text-gray-900"}`}>{label}</p>
-      {payload.map((p: any, i: number) => (
+      {payload.map((p, i) => (
         <p key={i} className="text-xs" style={{ color: p.color }}>
           {p.name}: {currencySymbol}{p.value.toLocaleString()}
         </p>

@@ -21,8 +21,21 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
 
+interface TooltipPayloadItem {
+  name: string;
+  value: number | string;
+  color?: string;
+  fill?: string;
+}
+
+interface ChartTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
+
 // Stable tooltip — prevents Recharts from re-rendering on every hover
-const ChartTooltip = memo(function ChartTooltip({ active, payload, label }: any) {
+const ChartTooltip = memo(function ChartTooltip({ active, payload, label }: ChartTooltipProps) {
   const theme = useStore((s) => s.theme);
   const currencySymbol = useStore((s) => s.appSettings.currencySymbol);
   if (!active || !payload?.length) return null;
@@ -30,7 +43,7 @@ const ChartTooltip = memo(function ChartTooltip({ active, payload, label }: any)
   return (
     <div className={`${isDark ? "bg-surface-container-highest" : "bg-white"} px-4 py-3 rounded-xl shadow-xl border ${isDark ? "border-outline-variant/20" : "border-gray-200"}`}>
       <p className={`text-xs font-semibold mb-1 ${isDark ? "text-on-surface" : "text-gray-900"}`}>{label}</p>
-      {payload.map((p: any, i: number) => (
+      {payload.map((p, i: number) => (
         <p key={i} className="text-xs" style={{ color: p.color || p.fill }}>
           {p.name}:{" "}
           {typeof p.value === "number" && p.name !== "Savings Rate" ? currencySymbol : ""}
@@ -181,7 +194,7 @@ export default function Analytics() {
     }
 
     return results;
-  }, [topCategories, monthlyData, savingsRateData, transactions]);
+  }, [topCategories, monthlyData, savingsRateData, transactions, currencySymbol]);
 
   const currentSavings = monthlyData.length > 0 ? monthlyData[monthlyData.length - 1].savings : 0;
   const savingsProgress = savingsGoal > 0 ? Math.min(Math.round((savedThisMonth / savingsGoal) * 100), 100) : 0;
